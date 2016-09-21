@@ -1,0 +1,887 @@
+SIO -Software Carpentry Etherpad!
+
+This pad is synchronized as you type, so that everyone viewing this page sees the same text. This allows you to collaborate seamlessly on documents.
+
+Users are expected to follow our code of conduct: http://software-carpentry.org/conduct.html
+
+All content is publicly available under the Creative Commons Attribution License: https://creativecommons.org/licenses/by/4.0/
+
+
+
+##############
+
+Course Syllabus and setup instructions:  https://ucsdlib.github.io/2016-09-19-UCSD-SIO/
+
+This Etherpad: http://pad.software-carpentry.org/2016-09-19-UCSDSIO
+
+
+*Instructors:
+*Matt Critchlow - Git
+*Tim Dennis - Python
+*Reid Otsuji - Unix Shell
+*
+*
+*Helpers:
+*    Day 1:  Adi Ranganath, Tim Dennis, Matt Critchlow
+*    Day 2: Tim Dennis, Reid Otsuji, Ryan Johnson 
+
+Download Data here:
+    We will be saving the data folder on the deskop
+    open Terminal or Gitbash and change diretory to your desktop type:
+        
+       $ CD desktop
+      $  git clone http://github.com/ucsdlib/sio-swc
+
+the data files wll down load to a sio-swc folder on your desktop.
+
+
+PLEASE SIGN IN HERE:
+
+Tim Dennis, UCSD Library, timdennis@ucsd.edu    
+Reid Otsuji, UCSD Library, rotsuji@ucsd.edu
+Matt Critchlow, UCSD Library, mcritchlow@ucsd.edu
+Claire Mizumoto, Research IT, claire@ucsd.edu
+Cyd Burrows, Research IT, cburrows@ucsd.edu
+Sara Rivera, SIO, s6rivera@ucsd.edu
+Jessica Blanton, SIO jmblanton@ucsd.edu
+Sascha Nicklisch, SIO, snicklisch@ucsd.edu
+Chris Leber, SIO, cleber@ucsd.edu
+Logan Peoples, SIO, lpeoples@ucsd.edu
+Sarah R. Smith, SIO, smith8272@gmail.com
+Jack Pan, SIO, b4pan@ucsd.edu
+Jon Tarn jon.sy.tarn@gmail.com
+Lena Keller l1keller@ucsd.edu
+Marisa Trego marisa.trego@noaa.gov
+Suzanne Roden suzanne.roden@noaa.gov
+Jens Muhle, jmuhle@ucsd.edu
+Maryam Asgari Lamjiri, masgaril@ucsd.edu
+Bia Villas Boas avillasboas@ucsd.edu
+Marcy Erb, UCSD, Biological Sciences, merb@ucsd.edu
+Mike Raiko, UCSD CSE, mraiko@ucsd.edu
+Martin Gassmann, SIO, mgassmann@ucsd.edu
+Tessa Pierce, SIO, ntpierce@ucsd.edu
+###############
+
+To get set up:
+
+cd desktop
+git clone  http://github.com/ucsdlib/sio-swc
+
+###############
+
+Day 1
+Automating tasks with the Unix Shell 
+
+# sign is a comment in unix shell
+$ whoami #tells you who current user you are logged in as (v. helpful on remote machines where you might have many users that you can use)
+#pwd   # "print working directory" = tells you what folder you're in 
+$ ls # lists files
+$ ls -F #tells unix to distinguish files and directories by add a '/' after directories
+ls --help    # get help info for the ls command
+
+##in unix/mac/linux (doesn't work on gitbash):
+    man ls     # display manual for ls command
+    # hit q afterwards to return to command prompt  
+
+Google 'man ls unix' and you'll get to the man page: 
+    http://man7.org/linux/man-pages/man1/ls.1.html
+
+cd   # command to change directory
+cd desktop  # change into desktop folder
+cd sio-swc 
+cd data-shell
+
+#how to get back to previous folders?
+cd ..  # move back up one folder  (to parent directory)
+
+ls -F -a     #use ls to display hidden directories ('-a' means "show all")
+
+You can also enable colors in the shell permanently, e.g.: 
+    
+	Edit:
+	~/.bash_profile
+*
+	or
+*
+	~/.profile
+*
+	and add the following two lines:
+*
+	export CLICOLOR=1
+	export LSCOLORS=ExFxCxDxBxegedabagacad
+*
+	you can use this if you are using a black background:
+	
+	export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+*    
+
+'.' #is current worksing directory
+'..' # is parent directory
+
+cd  #cd and space will take you home!
+clear # will clear the screen 
+ctr-l #will clear screen
+
+# use your 'up' arrow key to see your previous commands. Press 'enter' to reexecute a command.
+
+cd ~ # takes you home as well '~' evaluates to the path to your home directory
+
+use <tab> to autocomplete - start typing the first few letters of a command and hit tab
+Using tab also helps avoiding typos!
+
+$ mkdir thesis # will create a directory with the name thesis
+
+## recommended to not have spaces in the folder names in unix, if there are spaces in the name, you can quote the file name cd "my spaced name"
+
+For example, mkdir "test directory" is possible, but then you always have to use "test directory", e.g. cd "test directory". Using test-directory or test_directory is better.
+
+nano:
+ctr-o #write the file to disk(save)
+ctr-x #exits the file 
+
+rm #removes files, but will not remove a directory
+$rm thesis/draft.txt 
+$rmdir thesis #removes a empty folder
+
+To get nano: https://github.com/swcarpentry/windows-installer/releases/tag/v0.3
+
+$ mv #command will move files or directories
+$ cp # copies files or folders
+
+
+command wc (word count) 
+$ wc -l *.pdb > lengths.txt # '>' redirects the standard output to the file
+
+$ sort -n lenghts.txt # sorts numerically with -n 
+$ head # will read first few lines of a file or input
+
+Two or more commands can be chained ("piped") together, using "|" pipe. This is very powerful and avoids the creating of temporary files.
+    
+	    wc -l *.pdb | sort -n | head -1
+	
+The * and the ? mark are special characters. For example, ls *.pdb lists all files which end with .pdb. * stands for multiple characters, ? for one character.
+
+$ wc -l *.pdb | sort -n | head -3  # wordcount for lines in all pdb files sorted by number and show only the top 3
+
+to get second column of a file you can use teh cut command
+$cut -d "," -f 2 animals.txt | sort -r # would grab the second column in the file, awk is also a tool in unix that is designed for operating on csv type data
+
+For loop in unix: 
+> for filename in file.txt file2.txt
+do
+head -n 3 $filename
+done
+
+$ for filename in *.dat
+$ do cp $filename original-$filename
+$ done
+
+For more information about UNIX commands check out :   www.explainshell.com
+
+##################  Python Day 1 Notes  ##############
+
+You can check your python version in the command shell:
+	    python --version
+
+To run the notebook:
+	jupyter notebook
+
+load numpy by typing:
+    
+    import numpy
+
+
+*data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+
+print(data)
+ weight_kg = 55
+ 
+ print(weight_kg)
+ 
+ 
+ print('weight in kilograms is not', weight_kg)
+ 
+weight_kg * 2
+
+weight_lb = weight_kg * 2.2
+
+print("weight in lb", weight_lb)
+
+print("weight in lb:", weight_kg * 2.2)
+
+whos
+
+
+Challenge:
+What does the following program print out?
+
+*first, second = 'Grace', 'Hopper'
+*third, fourth = second, first
+*print(third, fourth)
+
+answer: Hopper Grace
+
+Make sure you have your data setup.
+run:
+data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+
+print(data)
+
+print(type(data))
+
+print(data.shape)
+
+print('first value in data', data[0,0])
+
+print('4th value in data', data data[0,3])
+
+Python starts counting rows and columns at 0 (many other programming languages start at 1).
+
+Python addresses row, column
+
+
+
+slice array 
+data[0:4, 0:10]
+
+data[:3, 36:]
+
+
+Indexing  exercise:
+
+element = 'oxygen'
+print('first three characters:', element[0:3])
+
+print(element[:])
+print(element[-1])
+print(element[-2])
+print(element[1:-1])
+print(element[1:5])
+
+# functions are deonted with brackets
+# attributes are denoted with parentheses
+
+doubledata = data * 2.0
+print(doubledata)
+
+tripledata = doubledata+data
+print(tripledata)
+print(data.mean())
+print('maximum inflammation:', data.max())
+print('minimum inflammation:', data.min())
+print('standard deviation', data.std())
+
+# visualizing data with matplotlib
+# https://en.wikipedia.org/wiki/Matplotlib
+
+%matplotlib inline
+import matplotlib.pyplot as plt
+
+# make plot
+plt.imshow(data)
+#save plot
+image = plt.imshow(data)
+plt.savefig('heatmap.jpg')
+
+avg_inflm = data.mean(axis=0)
+print(avg_inflm.shape)
+# mean across axis 1 (row)
+
+# access means down columns (down axis 0)
+print(data.mean(axis=0))
+# access means down columns (down axis 1)
+print(data.mean(axis=1))
+
+# see contents of file (as in shell)
+!cat inflammation-01.csv
+
+# plot inflammation levels (by day)
+day_avg_plot = plt.plot(avg_inflm)
+
+#create plot showing standard deviation (numpy.std) of the inflammation data for each day across all patients
+std_plot= plt.plot(data.std(axis=0))
+# remember this is an object-oriented package
+
+# looping:
+word = 'lead'
+for char in word:
+    print(char)
+    
+# loop challenge
+for num in range(1,4):
+    print num
+    
+# loop challenge 2: wtire a loop that take a string and produces a new string with the characters in reverse order so 'Newton' becomes 'notweN'
+    
+newstring=''
+oldstring='Newton'
+length_old = len(oldstring)
+for char_index in range(length_old):
+    newstring = newstring+oldstring[length_old - char_index -1]
+print(newstring)
+
+# Strings are immutable (individual elements are unchangable)
+name = 'Bell'
+name[0]= 'b'
+
+# Unlike strings, lists are mutable, elements can be changed, thus are also subject to problems (make a copy of your data!)
+names=["Newton", "Darwing", "Turing"]
+print('names is originally:', names)
+names[1]='Darwin'
+print('final value of names:', names)
+
+print(odds)
+odds.append(11)
+print(odds)
+odds.reverse()
+print(odds)
+odds.remove(11)
+print(odds)
+
+odds = [1,3,5,7]
+primes = odds
+primes += [2]
+print('primes:', primes)
+print('odds:', odds)
+
+odds = [1,3,5,7]
+primes = list(odds)
+primes += [2]
+print('primes:', primes)
+print('odds:', odds)
+
+# List challenge: Use a for-loop to convert the string "hello" into a list of letters:
+#Hint: you can create an empty list like this:
+ #       my_list = []
+
+my_list=[]
+word="hello"
+for char in word:
+    my_list += char
+print(my_list)
+
+# non continuous slicing:
+
+# indexing: Rangestart:Rangeend:intervaljump
+primes = [2,3,5,7,11,13,17,19,23,31,37]
+subset = primes[0:12:3]
+print("subset", subset)
+
+# slice challenge: using 
+# beatles = "In an octopus's garden in the shade"
+# slice to "I notpussgre ntesae"
+
+beatles = "In an octopus's garden in the shade"
+beatles[0:len(beatles):2]
+# or
+beatles[::2]
+_____________________ Working with files_____________________
+
+import glob
+import numpy
+
+# .glob returns list of files (better than os.listdir, uses wildcards)
+print(glob.glob('inflammation*.csv'))
+
+counter = 0
+for filename in glob.glob('*.csv'):
+    counter = counter +1
+    # aka counter += 1
+print("number of files:", counter)
+
+counter = 0
+for filename in glob.glob('infla*'):
+    counter = counter +1
+    # aka counter += 1
+print("number of files:", counter)
+
+# help documentation
+help(numpy)
+
+# making choices using conditional expressions
+num = 37
+if num >100:
+    print("greater")
+else: 
+    print("not greater")
+print('done')
+
+# conditionals do not have to have "else" statements
+num = 53
+print('before conditional...')
+if num > 100:
+    print(num, 'is greater than 100')
+print('...after conditional')
+
+num = -3
+if num > 0:
+    print(num, "is positive")
+elif num ==0:
+    print(num, "is zero")
+else:
+    print(num, "is negative")
+    
+if (1>0) and (2>0):
+    print('both parts are true')
+else: 
+    print('at least one test is not true')
+
+# Choices challenge which of the following would be printed if you were to run this code?  why did you pick this answer?
+#A
+#B
+#C
+#B and C
+x=4
+y=5
+if x>y:
+    print('A')
+elif x==y:
+    print ('B')
+elif x<y:
+    print('C')
+    
+    # Choices: see the pattern?
+if '':
+    print('empty string is true')
+if 'word':
+    print('word is true')
+if []:
+    print('empty list is true')
+if [1,2,3]:
+    print('non-empty list is true')
+if 0:
+    print('zero is true')
+if 1:
+    print('one string is true')
+
+# useful in testing your code- if something is empty, it will return as FALSE
+
+
+*################### Day 2 ##################
+*PLEASE SIGN IN Here. thank you!
+
+Reid Otsuji, Library SWC instructor, rotsuji@ucsd.edu
+Tim Dennis Library SWC instructor, timdennis@ucsd.edu
+Matt Critchlow Library SWC instructor
+Jack Pan b4pan@ucsd.edu
+Logan Peoples, lpeoples@ucsd.edu
+Sarah Gille, sgille@ucsd.edu  [sorry I never found the link for this page yesterdaty]
+Sarah Smith, smith8272@gmail.com
+Lena Keller l1keller@ucsd.edu
+Sara Rivera, s6rivea@ucsd.edu
+
+
+
+Version Control using Git/Github
+
+Verify your Git installation 
+
+
+Git terms:
+    
+version control - A version control system is a tool that keeps track of these changes for us and helps us version and merge our files
+
+Commit - decide which changes make up the next version
+Repository (Repo)  - complete history of commits for a particular project and their metadata
+Merge - 
+
+Key points:
+    
+	* Version control is like an unlimited ‘undo’.
+	* Version control also allows many people to work in parallel.
+
+
+distributed- meaning that they do not need a centralized server to host the repository
+
+at prompt type:
+
+cd ~
+pwd
+git config --global user.name [your github username]
+git config --global user.email [your email]
+
+	###git offers the option for a private email address if you are concerend about having a public view email. ####
+
+git config --global core.editor "nano -w"
+git config --global core.autocrlf input   (true - is for Windows machines)
+
+git config --list
+
+git status  (use this command often!)
+
+creating repo:
+mkdir learning-git
+
+cd  learning-git
+
+git init 
+
+ls 
+ls -a (will show the hidden files)
+
+git status
+
+we are going to create a Markdown file.
+Github uses markdown 
+
+open your txt editor
+
+nano basics.md 
+
+in this file type:
+    #git bascis
+    * `git init` - creates a new git repo in the current folder
+    
+save file and exit nano 
+
+cat basics.md 
+
+git status
+
+git add basics.md 
+
+git status
+
+making your first commit:
+    
+git commit -m  "type in simple description of changes made"
+
+git add = this is what i plan to commit to the repo
+git commit = i am commiting something to the repo
+
+git log 
+
+nano basics.md
+add to file:
+    * `git status`  I can use this anytime to see the current status for the repo
+
+exit nano
+
+git status
+ 
+ git diff
+ 
+git commit -m "document git status command"
+
+	On branch master
+	Changes not staged for commit:
+	        modified:   basics.md
+
+	no changes added to commit
+
+We forgot the git add command!
+
+git add basics.md 
+git commit -m "document git status command"
+
+git status 
+git log 
+	git log will now show 2 commits have been completed 
+	
+There is a flag to combine the add and commit commands.
+
+If you edit a file after the git add file command, you have to do another git add file command, otherwise the git commit -m "docu text" will submit the version of your file when you did the git add commands, not the final version with your last edits.
+
+
+
+nano basics.md
+	*`git add <file>`  this will add the file to be commiteed - places the file in the git staging area
+	
+git add bascis.md
+git status
+git diff
+
+git diff --staged
+
+git diff HEAD~1 basics.md
+
+~1  = commit before the top commit 
+~2 = commit before ~1 commit
+
+you will see an error if you try to go back past your current commits in history 
+ 
+git diff HEAD~..HEAD~2 basics.md
+
+gitk
+gitk <- gui git program 
+
+
+> basics.md
+cat basics.md
+git status
+
+git diff
+
+git checkout HEAD basics.md
+cat basics.md
+
+
+If you issued an git add "file" command, you can undo that by 
+
+	
+	git reset HEAD basics.md 
+	
+If you want to also discard changes to your local file, then you also have to do
+
+	git checkout HEAD basics.md
+	
+
+git checkout HEAD master <-- if you run into problems 
+
+
+USING GITHUB! 
+
+www.github.com
+
+copy and paste
+git remote add origin [your repo link]
+git remote -v
+
+git push origin master
+
+git pull origin master 
+
+
+
+git commit - changes locally 
+git push - sending changes to remote 
+
+
+cd ..
+mkdir collaborating-test
+cd collaborating-test
+
+git clone [paste in clone  URL from github]
+
+look up github "fork" for further explanation
+
+git push origin master 
+	this will push master branch to github 
+	
+in Github interface, there are several options to view changes 
+
+Pull request - requesting the owner to merge the chages 
+
+making a pull request you will see the owners repo, there you can see changes made to files 
+
+
+########## Adv. Python using Pandas ############ 
+
+import pandas
+
+pandas.read_csv("a1_mosquitos_data.csv", sep=",")
+
+type(data)
+
+data = pandas.read_csv("A1_mosquito_data.csv", sep=",")
+
+
+print(data["rainfall", "temperature"]])
+
+print(data[0:2])
+
+
+data[1:2]
+
+data.iloc[1]
+
+
+type(data)
+
+data["temperature"]
+
+data.temperature
+
+data['temperatre'][data['year'] > 2005
+
+print(data.mean())
+
+print(data['temperature'])
+
+print(data['temperature'].mean())
+
+print(data.max())
+data['rainfall'].min()
+
+print(data['mosquitos'][1:3].std())
+
+print(data.describe())
+
+!head A2_mosquito_data.csv
+
+data_a2 = pandas.read_csv('A2_mosquito_data.csv')
+
+data_a2.head()
+
+weather = data_a2[["temperature","rainfall"]]
+
+print(data_a2.temperature.mean(), data_a2['temperature'].std(), data_a2.rainfall.mean(). data_a2['rainfall'].std)
+
+type(weather)
+
+temps = data['temperature']
+for temp_in_f in temps:
+    temp_in_c = (temp_in_f - 32) * 5/9
+    print(temp_in_c)
+
+    data['temperature'][0]
+
+
+    if temp > 75:
+    print("the temp is greater than 75)")
+
+    temp = data['temperature'][2]
+if temp < 80:
+    print('the temp is < 80')
+elif temp > 80:
+    print('the temp is equal to 80')
+else:
+    print('the temp is equal to 80')
+
+######### Plotting  #########
+
+%matplotlib inline
+*from matplotlib import pyplot as plt
+
+plt.plot(data['year'], data['mosquitos'])
+
+write out to .csv file: 
+data.to_csv('a4.csv')
+
+check to see file exists:
+    ls *.csv
+    
+data = data.set_index('year')
+
+data.index
+
+data[data('temperature']>80]['rainfall']
+
+
+
+
+
+###WRITING FUNCTIONS SECTION
+function format example: 
+
+def function_name(inputs):
+    do stuff
+    return output
+
+
+for function challenge:
+    write a function to replace:
+data['temperature'] = (data['temperature'] - 32) * 5 / 9.0
+
+
+def fahr_to_celsius(temp_fahr):
+    temp_celsius = (temp_fahr- 32) * 5/9
+ return temp_celsius
+print(fahr_to_celsius(32))
+
+fahr_to_celsius(212)
+
+use # for comments in python 
+
+example:
+# comment single line like this
+
+multiline string (triple quote)= '''line one
+line two
+line three'''
+
+def fahr_to_celsius(temp_fahr):
+    """Convert Fahrenheit to Celsiuss    Return Celsius conversion of input"""
+    temp_celsius = (temp_fahr- 32) * 5/9
+    return temp_celsius
+
+
+fahr_to_celsius?  <-- question mark to get help info 
+
+data.head()
+
+fahr_to_celsius(data['temperature'])
+
+data["temperature_c"] = fahr_to_celsius(data['temperature'])
+
+data.head()
+
+%matplotlib inline
+
+import matplotlib.pyplot as plt
+
+plt.plot(data['temperature_c'], data['mosquitos'], ".")
+
+plt.savefig('A1_mosquito_data_mosquitos_vs_tempC.png')
+
+!ls *png
+
+!ls -l *csv
+
+a = "A1_mosquitos_data.csv"
+
+a
+
+a[0:-3] + "png"
+
+a[0:-4] + "_mosquitos_vs_tempC.png"
+
+a.replace(".csv", ".png")
+
+### Function template:
+def creat_mosquitos_vs_tempC_plot(filename):
+    # write out process here
+    #load data
+    #conert celsius
+    #create the plot
+    #save the plot
+    pass
+    
+
+
+def create_mosquitos_vs_tempC_plot(filename):
+  # write processing here
+    # load data
+    print("Loading", filename)
+    mosquitos_data = pandas.read_csv(filename)
+    # convert celsius
+    mosquitos_data["temperature_C"] = fahr_to_celsius(mosquitos_data["temperature"])
+    # create the plot
+    print("Plotting", filename)
+    plt.plot(mosquitos_data["temperature_C"], mosquitos_data["mosquitos"], ".")
+    # save the plot
+    filename_png = filename[0:-4] + "_mosquitos_vs_tempC.png"
+    plt.savefig(filename_png)
+    print("Saving", filename_png)
+    return filename_png
+
+name_of_png = create_mosquitos_vs_tempC_plot('A2_mosquito_data.csv')
+print(name_of_png)
+
+
+
+running script analyze.py:
+%matplotlib inline
+
+import analyze
+
+data = analyze.create_mosquitos_vs_tempC_plot("A2_mosquito_data.csv")
+
+data
+
+### writing a script to run from command line ####
+
+in new script file write:
+
+*import analyze
+*import sys 
+*
+*filename = sys.argv[1]
+*analyze2.create_mosquitos_vs_tempC_plot(filename)
+
+  to run script type:
+      python [.py filename]
+
+
+
+
